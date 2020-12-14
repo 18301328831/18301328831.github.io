@@ -1,17 +1,46 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <title>董海明</title>
+    <title>董海明:上传文件</title>
     <!--Favicon-->
     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
     <link rel="icon" href="images/favicon.png" type="image/x-icon">
     <!-- Responsive -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <style>
+        iframe {
+            min-height: 600px;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
+<body>
+<iframe id="main" name="main" frameborder="0" src="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html"></iframe>
 </body>
 <script>
-    window.location='https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html'
+    // 计算页面的实际高度，iframe自适应会用到
+    function calcPageHeight(doc) {
+        var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight)
+        var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight)
+        var height = Math.max(cHeight, sHeight)
+        return height
+    }
+
+    //根据ID获取iframe对象
+    var ifr = document.getElementById('main')
+    ifr.onload = function () {
+        //解决打开高度太高的页面后再打开高度较小页面滚动条不收缩
+        ifr.style.height = '0px';
+        var iDoc = ifr.contentDocument || ifr.document
+        var height = calcPageHeight(iDoc)
+        if (height < 850) {
+            height = 850;
+        }
+        ifr.style.height = height + 'px'
+    }
 </script>
 </html>
