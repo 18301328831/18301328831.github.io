@@ -21,6 +21,7 @@
         text-decoration: none;
     }
     body ul {
+	padding-left: 0px;
         list-style: none;
     }
     input, button {
@@ -102,12 +103,6 @@
         font-size: 14px;
         color: #6b7184;
     }
-    footer {
-        position: absolute;
-        width: 100%;
-        text-align: center;
-        bottom: 0px;
-    }
 </style>
 <body id="app">
 <div class="search-container">
@@ -129,11 +124,8 @@
         </div>
     </div>
 </div>
-<footer>
-    <span>Copyright©2020 董海明 版权所有</span>
-</footer>
 </body>
-<script type="application/javascript" src="js/tpl.js"></script>
+<script type="application/javascript" src="js/template.js"></script>
 <script type="application/javascript">
     const ENTER_KEY_CODE = 13
     let url = 'https://www.baidu.com/s?wd=';
