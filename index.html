@@ -14,7 +14,6 @@
         background: #f2f2f2;
         overflow-x: hidden;
         overflow-y: auto;
-        /*background: #494A5F;*/
         font-weight: 500;
         font-family: "Microsoft YaHei","宋体","Segoe UI", "Lucida Grande", Helvetica, Arial,sans-serif, FreeSans, Arimo;
     }
@@ -28,20 +27,39 @@
         border: none;
         outline: none;
     }
+    .search-container {
+        width: 80%;
+        margin: 50px auto;
+    }
     .search {
+        width: 50%;
+        margin: auto;
         white-space:nowrap;
     }
     .search input {
         height: 42px;
+        padding-left: 10px;
+        width: 80%;
         border: 1px solid #A3D0C3;
     }
     .search button {
         height: 42px;
+        width: 20%;
         background: #A3D0C3;
         border: 1px solid #A3D0C3;
     }
+    .search-history {
+        margin: 10px auto;
+        width: 50%;
+    }
+    .search-history li {
+        float: left;
+        margin-left: 10px;
+    }
     .link-container {
-        width: ;
+        width: 80%;
+        margin: 100px auto;
+        clear: left;
     }
     .box {
         float: left;
@@ -77,162 +95,44 @@
         -o-transition: all 0.3s ease;
 
     }
+    .box ul li:hover {
+        background: rgb(232 231 231);
+    }
     .box ul li a {
         font-size: 14px;
         color: #6b7184;
     }
     footer {
-        position: fixed;
+        position: absolute;
+        width: 100%;
         text-align: center;
         bottom: 0px;
     }
 </style>
-<body>
-<div>
+<body id="app">
+<div class="search-container">
     <form method="get" target="_blank" action="https://www.baidu.com/s" class="search">
         <input id="words" name="wd" type="search" placeholder="百度一下"/>
         <button type="submit">搜索</button>
     </form>
-    <ul class="search-history">
-        <li><a href="https://www.baidu.com/s?wd=拜登时代" target="_blank">拜登时代</a></li>
+    <ul class="search-history" for="item in searchHistory">
+        <li><a href="{{item.href}}" target="_blank">{{item.word}}</a></li>
     </ul>
 </div>
-<div class="link-container" id="app">
-    <div v-each="data, in navData">
+<div class="link-container">
+    <div for="data in navData">
         <div class="box">
-            <h3 i-text="{{data.group}}"></h3>
-            <ul v-each="link in data.links">
-                <li><a i-href="{{link.href}}" i-text="{{link.name}}" target="_blank"></a></li>
+            <h3>{{data.group}}</h3>
+            <ul for="link in data.links">
+                <li><a href="{{link.href}}" target="_blank">{{link.name}}</a></li>
             </ul>
         </div>
     </div>
-    <!--    <div class="box">-->
-    <!--        <h3>常用 · 工作</h3>-->
-    <!--        <ul>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
-    <!--    <div class="box">-->
-    <!--        <h3>常用 · 社交</h3>-->
-    <!--        <ul>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
-    <!--    <div class="box">-->
-    <!--        <h3>常用 · 生活</h3>-->
-    <!--        <ul>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
-    <!--    <div class="box">-->
-    <!--        <h3>视频 · 音乐</h3>-->
-    <!--        <ul>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
-    <!--    <div class="box">-->
-    <!--        <h3>消费 · 购物</h3>-->
-    <!--        <ul>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
-    <!--    <div class="box">-->
-    <!--        <h3>资讯 · 新闻</h3>-->
-    <!--        <ul>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
-    <!--    <div class="box">-->
-    <!--        <h3>工作 · 求职</h3>-->
-    <!--        <ul>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
-    <!--    <div class="box">-->
-    <!--        <h3>娱乐 · 游戏</h3>-->
-    <!--        <ul>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
-    <!--    <div class="box">-->
-    <!--        <h3>金融 · 银行</h3>-->
-    <!--        <ul>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
-    <!--    <div class="link-box">-->
-    <!--        <h3>研发门户</h3>-->
-    <!--        <ul>-->
-    <!--            <li><a href="https://lanhuapp.com/url/cOFqL" target="_blank">蓝湖</a></li>-->
-    <!--            <li><a href="https://huiyixing.dakabg.com/nextcloud/index.php" target="_blank">私有云</a></li>-->
-    <!--            <li><a href="http://10.2.24.41/gitlab" target="_blank">GitLab</a></li>-->
-    <!--            <li><a href="http://10.2.24.41:8090/jenkins/" target="_blank">Jenkins</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
-    <!--    <div class="link-box">-->
-    <!--        <h3>常用工具</h3>-->
-    <!--        <ul>-->
-    <!--            <li><a href="https://tool.lu/" target="_blank">工具合集</a></li>-->
-    <!--            <li><a href="https://notepad.1976f.com/youpath" target="_blank">云文本</a></li>-->
-    <!--            <li><a href="https://negativespace.co/" target="_blank">无版权图片</a></li>-->
-    <!--            <li><a href="https://freephotos.cc/zh" target="_blank">无版权图片</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--            <li><a href="https://pi-ip.oss-cn-hangzhou.aliyuncs.com/file-upload/upload.html" target="_blank">上传文件</a></li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
 </div>
 <footer>
     <span>Copyright©2020 董海明 版权所有</span>
 </footer>
 </body>
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="application/javascript" src="js/tpl.js"></script>
 <script type="application/javascript">
     const ENTER_KEY_CODE = 13
@@ -246,6 +146,10 @@
     let tpl = new TPL({
         el:"#app",
         data: {
+            searchHistory: [
+                {"word": "拜登时代", "href": "https://www.baidu.com/s?wd=%E6%8B%9C%E7%99%BB%E6%97%B6%E4%BB%A3"},
+                {"word": "特朗普:现在放弃为时过早", "href": "https://www.baidu.com/s?wd=%E7%89%B9%E6%9C%97%E6%99%AE%3A%E7%8E%B0%E5%9C%A8%E6%94%BE%E5%BC%83%E4%B8%BA%E6%97%B6%E8%BF%87%E6%97%A9"}
+            ],
             navData: [
                 {"group": "常用 · 工作", "links": [{"name": "Google 翻译", "href": "https://translate.google.cn/"}, {"name": "百度指数", "href": "http://index.baidu.com/"}, {"name": "百度网盘", "href": "http://pan.baidu.com/"}, {"name": "有道词典", "href": "http://dict.youdao.com/"}, {"name": "印象笔记", "href": "https://www.yinxiang.com/"}, {"name": "QQ邮箱", "href": "https://mail.qq.com/"}, {"name": "网页版微信", "href": "https://wx.qq.com/"}, {"name": "必应", "href": "http://cn.bing.com/"}, {"name": "百度", "href": "https://www.baidu.com/"}]},
                 {"group": "常用 · 社交", "links": [{"name": "微博", "href": "http://weibo.com/"}, {"name": "知乎", "href": "https://www.zhihu.com/"}, {"name": "豆瓣", "href": "https://www.douban.com/"}, {"name": "百度贴吧", "href": "http://tieba.baidu.com/index.html"}, {"name": "QQ空间", "href": "http://qzone.qq.com/"}, {"name": "简书", "href": "http://www.jianshu.com/"}, {"name": "果壳", "href": "http://www.guokr.com/"}, {"name": "V2EX", "href": "https://www.v2ex.com/"}, {"name": "虎扑", "href": "http://www.hupu.com/"}]},
@@ -260,7 +164,7 @@
         },
         methods:{
             init:function(){
-                this.replaceModel();
+                this.render();
             },
             show:function(p){
                 alert(this.title+"--"+p)
