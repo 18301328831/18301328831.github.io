@@ -42,7 +42,7 @@ let TPL = function (params) {
                 let items = text.split(/ in | of /i)
 
                 let subNodeTemplates = []
-                for (let i = 0; i<node.childNodes.length; i++) {
+                for (let i = 0; i < node.childNodes.length; i++) {
                     subNodeTemplates.push(node.childNodes[i].cloneNode(true))
                 }
                 node.innerHTML = ""
