@@ -49,11 +49,11 @@
         background: #A3D0C3;
         border: 1px solid #A3D0C3;
     }
-    .search-history {
+    .history {
         margin: 10px auto;
         width: 50%;
     }
-    .search-history li {
+    .history li {
         float: left;
         margin-left: 10px;
     }
@@ -104,13 +104,13 @@
         color: #6b7184;
     }
 </style>
-<body id="app">
+<body>
 <div class="search-container">
-    <form method="get" target="_blank" action="https://www.baidu.com/s" class="search">
-        <input id="words" name="wd" type="search" placeholder="百度一下"/>
+    <form class="search" action="https://www.baidu.com/s" method="get" target="_blank">
+        <input name="wd" type="search" autofocus="autofocus" placeholder="百度一下"/>
         <button type="submit">搜索</button>
     </form>
-    <ul class="search-history" for="item in searchHistory">
+    <ul class="history" for="item in searchHistory">
         <li><a href="{{item.href}}" target="_blank">{{item.word}}</a></li>
     </ul>
 </div>
@@ -119,7 +119,7 @@
         <div class="box">
             <h3>{{data.group}}</h3>
             <ul for="link in data.links">
-                <li><a href="{{link.href}}" target="_blank">{{link.name}}</a></li>
+                <li><a href="{{link.href}}" target="_blank">{{link.word}}</a></li>
             </ul>
         </div>
     </div>
@@ -128,43 +128,38 @@
 <script type="application/javascript" src="js/template.js"></script>
 <script type="application/javascript">
     const ENTER_KEY_CODE = 13
-    let url = 'https://www.baidu.com/s?wd=';
     document.onkeydown = function (event) {
-        var e = event || window.event;
-        if (e && e.keyCode == ENTER_KEY_CODE) {
-            window.open(url + document.getElementById('words').value);
+        if (event === ENTER_KEY_CODE) {
+            window.open('https://www.baidu.com/s?wd=' + document.querySelector("input[name=wd]").value);
         }
     };
-    let tpl = new TPL({
-        el:"#app",
+    let body = new TPL({
+        el: "body",
         data: {
             searchHistory: [
                 {"word": "拜登时代", "href": "https://www.baidu.com/s?wd=%E6%8B%9C%E7%99%BB%E6%97%B6%E4%BB%A3"},
                 {"word": "特朗普:现在放弃为时过早", "href": "https://www.baidu.com/s?wd=%E7%89%B9%E6%9C%97%E6%99%AE%3A%E7%8E%B0%E5%9C%A8%E6%94%BE%E5%BC%83%E4%B8%BA%E6%97%B6%E8%BF%87%E6%97%A9"}
             ],
             navData: [
-                {"group": "常用 · 工作", "links": [{"name": "Google 翻译", "href": "https://translate.google.cn/"}, {"name": "百度指数", "href": "http://index.baidu.com/"}, {"name": "百度网盘", "href": "http://pan.baidu.com/"}, {"name": "有道词典", "href": "http://dict.youdao.com/"}, {"name": "印象笔记", "href": "https://www.yinxiang.com/"}, {"name": "QQ邮箱", "href": "https://mail.qq.com/"}, {"name": "网页版微信", "href": "https://wx.qq.com/"}, {"name": "必应", "href": "http://cn.bing.com/"}, {"name": "百度", "href": "https://www.baidu.com/"}]},
-                {"group": "常用 · 社交", "links": [{"name": "微博", "href": "http://weibo.com/"}, {"name": "知乎", "href": "https://www.zhihu.com/"}, {"name": "豆瓣", "href": "https://www.douban.com/"}, {"name": "百度贴吧", "href": "http://tieba.baidu.com/index.html"}, {"name": "QQ空间", "href": "http://qzone.qq.com/"}, {"name": "简书", "href": "http://www.jianshu.com/"}, {"name": "果壳", "href": "http://www.guokr.com/"}, {"name": "V2EX", "href": "https://www.v2ex.com/"}, {"name": "虎扑", "href": "http://www.hupu.com/"}]},
-                {"group": "常用 · 生活", "links": [{"name": "穷游", "href": "http://www.qyer.com/"}, {"name": "携程", "href": "http://www.ctrip.com/"}, {"name": "去哪儿", "href": "http://www.qunar.com/"}, {"name": "赶集网", "href": "http://ganji.com/"}, {"name": "58同城", "href": "http://58.com/"}, {"name": "饿了么", "href": "https://www.ele.me/"}, {"name": "百度糯米", "href": "https://nuomi.com/"}, {"name": "大众点评", "href": "http://www.dianping.com/"}, {"name": "美团", "href": "http://gz.meituan.com/"}]},
-                {"group": "视频 · 音乐", "links": [{"name": "网易云音乐", "href": "http://music.163.com/"}, {"name": "QQ音乐", "href": "https://y.qq.com/"}, {"name": "音悦台", "href": "http://www.yinyuetai.com/"}, {"name": "虾米音乐", "href": "http://www.xiami.com/"}, {"name": "哔哩哔哩", "href": "https://www.bilibili.com/"}, {"name": "腾讯视频", "href": "https://v.qq.com/"}, {"name": "搜狐视频", "href": "http://tv.sohu.com/"}, {"name": "爱奇艺", "href": "http://www.iqiyi.com/"}, {"name": "优酷", "href": "http://www.youku.com/"}]},
-                {"group": "消费 · 购物", "links": [{"name": "淘宝", "href": "https://www.taobao.com/"}, {"name": "天猫", "href": "https://www.tmall.com/"}, {"name": "京东", "href": "https://www.jd.com/"}, {"name": "1688", "href": "https://1688.com/"}, {"name": "小米网", "href": "http://www.mi.com/"}, {"name": "一号店", "href": "http://www.yhd.com/"}, {"name": "唯品会", "href": "http://www.vip.com/"}, {"name": "当当", "href": "http://www.dangdang.com/"}, {"name": "亚马逊", "href": "http://z.cn/"}]},
-                {"group": "资讯 · 新闻", "links": [{"name": "好奇日报", "href": "http://www.qdaily.com/"}, {"name": "铁血网", "href": "http://www.tiexue.net/"}, {"name": "汽车之家", "href": "http://www.autohome.com.cn/"}, {"name": "人民网", "href": "http://www.people.com.cn/"}, {"name": "搜狐", "href": "http://www.sohu.com/"}, {"name": "网易", "href": "http://www.163.com/"}, {"name": "百度新闻", "href": "http://news.baidu.com/"}, {"name": "腾讯", "href": "http://news.qq.com/"}, {"name": "新浪", "href": "http://www.sina.com.cn/"}]},
-                {"group": "工作 · 求职", "links": [{"name": "前程无忧", "href": "https://www.51job.com/"}, {"name": "智联招聘", "href": "http://www.zhaopin.com/"}, {"name": "乔布堂", "href": "http://cv.qiaobutang.com/"}, {"name": "兼职猫", "href": "https://www.jianzhimao.com/"}, {"name": "庞果网", "href": "http://job.csdn.net/"}, {"name": "内推网", "href": "http://www.neitui.me/"}, {"name": "大街", "href": "https://www.dajie.com/"}, {"name": "猎聘", "href": "https://www.liepin.com/"}, {"name": "拉勾", "href": "https://www.lagou.com/"}]},
-                {"group": "娱乐 · 游戏", "links": [{"name": "NGA", "href": "http://bbs.ngacn.cc/"}, {"name": "3DM", "href": "http://www.3dmgame.com/"}, {"name": "游民星空", "href": "http://www.gamersky.com/"}, {"name": "52pk", "href": "http://www.52pk.com/"}, {"name": "178", "href": "http://www.178.com/"}, {"name": "4399", "href": "http://www.4399.com/"}, {"name": "电玩巴士", "href": "http://www.tgbus.com/"}, {"name": "17173", "href": "https://www.17173.com/"}, {"name": "多玩", "href": "http://www.duowan.com/"}]},
-                {"group": "金融 · 银行", "links": [{"name": "平安银行", "href": "http://bank.pingan.com/"}, {"name": "民生银行", "href": "http://www.cmbc.com.cn/"}, {"name": "广发银行", "href": "http://www.cgbchina.com.cn/"}, {"name": "交通银行", "href": "http://www.bankcomm.com/BankCommSite/default.shtml"}, {"name": "中国银行", "href": "http://www.boc.cn/"}, {"name": "农业银行", "href": "http://www.abchina.com/cn/"}, {"name": "建设银行", "href": "http://www.ccb.com/cn/home/indexv3.html"}, {"name": "工商银行", "href": "http://www.icbc.com.cn/icbc/"}, {"name": "招商银行", "href": "http://www.cmbchina.com/"}]}
+                {"group": "常用 · 工作", "links": [{"word": "Google 翻译", "href": "https://translate.google.cn/"}, {"word": "百度指数", "href": "http://index.baidu.com/"}, {"word": "百度网盘", "href": "http://pan.baidu.com/"}, {"word": "有道词典", "href": "http://dict.youdao.com/"}, {"word": "印象笔记", "href": "https://www.yinxiang.com/"}, {"word": "QQ邮箱", "href": "https://mail.qq.com/"}, {"word": "网页版微信", "href": "https://wx.qq.com/"}, {"word": "必应", "href": "http://cn.bing.com/"}, {"word": "百度", "href": "https://www.baidu.com/"}]},
+                {"group": "常用 · 社交", "links": [{"word": "微博", "href": "http://weibo.com/"}, {"word": "知乎", "href": "https://www.zhihu.com/"}, {"word": "豆瓣", "href": "https://www.douban.com/"}, {"word": "百度贴吧", "href": "http://tieba.baidu.com/index.html"}, {"word": "QQ空间", "href": "http://qzone.qq.com/"}, {"word": "简书", "href": "http://www.jianshu.com/"}, {"word": "果壳", "href": "http://www.guokr.com/"}, {"word": "V2EX", "href": "https://www.v2ex.com/"}, {"word": "虎扑", "href": "http://www.hupu.com/"}]},
+                {"group": "常用 · 生活", "links": [{"word": "穷游", "href": "http://www.qyer.com/"}, {"word": "携程", "href": "http://www.ctrip.com/"}, {"word": "去哪儿", "href": "http://www.qunar.com/"}, {"word": "赶集网", "href": "http://ganji.com/"}, {"word": "58同城", "href": "http://58.com/"}, {"word": "饿了么", "href": "https://www.ele.me/"}, {"word": "百度糯米", "href": "https://nuomi.com/"}, {"word": "大众点评", "href": "http://www.dianping.com/"}, {"word": "美团", "href": "http://gz.meituan.com/"}]},
+                {"group": "视频 · 音乐", "links": [{"word": "网易云音乐", "href": "http://music.163.com/"}, {"word": "QQ音乐", "href": "https://y.qq.com/"}, {"word": "音悦台", "href": "http://www.yinyuetai.com/"}, {"word": "虾米音乐", "href": "http://www.xiami.com/"}, {"word": "哔哩哔哩", "href": "https://www.bilibili.com/"}, {"word": "腾讯视频", "href": "https://v.qq.com/"}, {"word": "搜狐视频", "href": "http://tv.sohu.com/"}, {"word": "爱奇艺", "href": "http://www.iqiyi.com/"}, {"word": "优酷", "href": "http://www.youku.com/"}]},
+                {"group": "消费 · 购物", "links": [{"word": "淘宝", "href": "https://www.taobao.com/"}, {"word": "天猫", "href": "https://www.tmall.com/"}, {"word": "京东", "href": "https://www.jd.com/"}, {"word": "1688", "href": "https://1688.com/"}, {"word": "小米网", "href": "http://www.mi.com/"}, {"word": "一号店", "href": "http://www.yhd.com/"}, {"word": "唯品会", "href": "http://www.vip.com/"}, {"word": "当当", "href": "http://www.dangdang.com/"}, {"word": "亚马逊", "href": "http://z.cn/"}]},
+                {"group": "资讯 · 新闻", "links": [{"word": "好奇日报", "href": "http://www.qdaily.com/"}, {"word": "铁血网", "href": "http://www.tiexue.net/"}, {"word": "汽车之家", "href": "http://www.autohome.com.cn/"}, {"word": "人民网", "href": "http://www.people.com.cn/"}, {"word": "搜狐", "href": "http://www.sohu.com/"}, {"word": "网易", "href": "http://www.163.com/"}, {"word": "百度新闻", "href": "http://news.baidu.com/"}, {"word": "腾讯", "href": "http://news.qq.com/"}, {"word": "新浪", "href": "http://www.sina.com.cn/"}]},
+                {"group": "工作 · 求职", "links": [{"word": "前程无忧", "href": "https://www.51job.com/"}, {"word": "智联招聘", "href": "http://www.zhaopin.com/"}, {"word": "乔布堂", "href": "http://cv.qiaobutang.com/"}, {"word": "兼职猫", "href": "https://www.jianzhimao.com/"}, {"word": "庞果网", "href": "http://job.csdn.net/"}, {"word": "内推网", "href": "http://www.neitui.me/"}, {"word": "大街", "href": "https://www.dajie.com/"}, {"word": "猎聘", "href": "https://www.liepin.com/"}, {"word": "拉勾", "href": "https://www.lagou.com/"}]},
+                {"group": "娱乐 · 游戏", "links": [{"word": "NGA", "href": "http://bbs.ngacn.cc/"}, {"word": "3DM", "href": "http://www.3dmgame.com/"}, {"word": "游民星空", "href": "http://www.gamersky.com/"}, {"word": "52pk", "href": "http://www.52pk.com/"}, {"word": "178", "href": "http://www.178.com/"}, {"word": "4399", "href": "http://www.4399.com/"}, {"word": "电玩巴士", "href": "http://www.tgbus.com/"}, {"word": "17173", "href": "https://www.17173.com/"}, {"word": "多玩", "href": "http://www.duowan.com/"}]},
+                {"group": "金融 · 银行", "links": [{"word": "平安银行", "href": "http://bank.pingan.com/"}, {"word": "民生银行", "href": "http://www.cmbc.com.cn/"}, {"word": "广发银行", "href": "http://www.cgbchina.com.cn/"}, {"word": "交通银行", "href": "http://www.bankcomm.com/BankCommSite/default.shtml"}, {"word": "中国银行", "href": "http://www.boc.cn/"}, {"word": "农业银行", "href": "http://www.abchina.com/cn/"}, {"word": "建设银行", "href": "http://www.ccb.com/cn/home/indexv3.html"}, {"word": "工商银行", "href": "http://www.icbc.com.cn/icbc/"}, {"word": "招商银行", "href": "http://www.cmbchina.com/"}]}
             ]
         },
         methods:{
             init:function(){
                 this.render();
-            },
-            show:function(p){
-                alert(this.title+"--"+p)
             }
         }
     })
     window.onload = function () {
-        tpl.init()
+        body.init()
     }
 </script>
 </html>
