@@ -21,7 +21,7 @@ let TPL = function (params) {
         if (node.nodeType === TEXT_NODE && this.hasEl(node.data)) {
             let text = node.data
             const [prefix, suffix, express] = this.getEl(text);
-            node.data = prefix + this.calculate(express.trim(), data) + suffix
+            node.data = prefix + this.calculate(express, data) + suffix
         }
 
         // 渲染节点属性
@@ -30,7 +30,7 @@ let TPL = function (params) {
                 let text = node.getAttribute(attrName)
                 if (this.hasEl(text)) {
                     const [prefix, suffix, express] = this.getEl(text);
-                    node.setAttribute(attrName, prefix + this.calculate(express.trim(), data) + suffix)
+                    node.setAttribute(attrName, prefix + this.calculate(express, data) + suffix)
                 }
             })
         }
@@ -70,60 +70,42 @@ let TPL = function (params) {
         return /{{.*}}/.test(str)
     }
 
+    this.hasFunc = function (str) {
+        return /\(.*\)/.test(str)
+    }
+
     this.getEl = function (str) {
         return [
             str.substring(0, str.indexOf("{{")),
             str.substring(str.indexOf("}}") + 2),
-            str.substring(str.indexOf("{{") + 2, str.indexOf("}}"))
+            str.substring(str.indexOf("{{") + 2, str.indexOf("}}")).trim()
+        ]
+    }
+
+    this.getFunc = function (str) {
+        return [
+            str.substring(0, str.indexOf("(")).trim(),
+            str.substring(str.indexOf("(") + 1, str.indexOf(")")).trim()
         ]
     }
 
     // 计算表达式
     this.calculate = function (express, data) {
-        let func = ""
-        if (express.indexOf("(") > 0) {
-            let v = express.split("(")
-            express = v[1].substring(0, v[1].indexOf(")"))
-            func = v[0]
-            func = func.trim()
+        let func, result
+        if (this.hasFunc(express)) {
+            [func, express] = this.getFunc(express)
         }
-        express = express.trim()
-
-        let split = express.split(/\./i)
-
-        for (let x = 0; x < split.length; x++) {
-            if (data) {
-                data = data[split[x]]
-            }
+        try{
+            result = eval("data." + express)
+        } catch (e) {
+            result = eval(express)
         }
-        // 如果全局也没有此model值则等于它本身
-        if (split.length === 1 && data === undefined) {
-            data = eval(express)
-        }
-
         // 判断是否存在函数运算
-        if (data) {
-            if (func && func !== "") {
-                // 当前页面实例是否存在该函数
-                if (this[func] && typeof this[func] === "function") {
-                    data = this[func](data)
-                } else {
-                    // 全局函数
-                    data = window[func](data)
-                }
-            }
-        } else {//无参函数
-            if (func && func !== "") {
-                // 当前页面实例是否存在该函数
-                if (this[func] && typeof this[func] === "function") {
-                    data = this[func]()
-                } else {
-                    // 全局函数
-                    data = window[func]()
-                }
-            }
+        if (func) {
+            result = this[func] && typeof this[func] === "function" ? this[func](result) :  window[func](result)
         }
-        return data
+
+        return result
     }
 
     this.create()
