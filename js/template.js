@@ -102,7 +102,7 @@ let TPL = function (params) {
         }
         // 判断是否存在函数运算
         if (func) {
-            result = this[func] && typeof this[func] === "function" ? this[func](result) :  window[func](result)
+            result = typeof this[func] === "function" ? this[func](result) :  window[func](result)
         }
 
         return result
