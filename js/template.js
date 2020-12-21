@@ -91,21 +91,16 @@ let TPL = function (params) {
 
     // 计算表达式
     this.calculate = function (express, data) {
-        let func, result
         if (this.hasFunc(express)) {
-            [func, express] = this.getFunc(express)
+            let [func, subExpress] = this.getFunc(express)
+            let param = this.calculate(subExpress, data)
+            return this[func] ? this[func](param) : window[func](param)
         }
-        try{
-            result = eval("data." + express)
+        try {
+            return eval("data." + express)
         } catch (e) {
-            result = eval(express)
+            return eval(express)
         }
-        // 判断是否存在函数运算
-        if (func) {
-            result = typeof this[func] === "function" ? this[func](result) :  window[func](result)
-        }
-
-        return result
     }
 
     this.create()
