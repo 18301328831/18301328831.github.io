@@ -105,7 +105,7 @@
     }
 </style>
 <body>
-<div class="search-container">
+<div show="showSearch" class="search-container">
     <form class="search" action="https://www.baidu.com/s" method="get" target="_blank">
         <input name="wd" type="search" autofocus="autofocus" placeholder="百度一下"/>
         <button type="submit">搜索</button>
@@ -136,6 +136,7 @@
     let body = new TPL({
         el: "body",
         data: {
+            showSearch: true,
             searchHistory: [
                 {"word": "拜登时代", "href": "https://www.baidu.com/s?wd=%E6%8B%9C%E7%99%BB%E6%97%B6%E4%BB%A3"},
                 {"word": "特朗普:现在放弃为时过早", "href": "https://www.baidu.com/s?wd=%E7%89%B9%E6%9C%97%E6%99%AE%3A%E7%8E%B0%E5%9C%A8%E6%94%BE%E5%BC%83%E4%B8%BA%E6%97%B6%E8%BF%87%E6%97%A9"}

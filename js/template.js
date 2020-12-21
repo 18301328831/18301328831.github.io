@@ -35,29 +35,33 @@ let TPL = function (params) {
             })
         }
 
-        // 渲染循环节点
-        if (node.hasAttribute) {
-            if (node.hasAttribute('for')) {
-                let text = node.getAttribute('for')
-                let items = text.split(/ in | of /i)
-
-                let subNodeTemplates = []
-                for (let i = 0; i < node.childNodes.length; i++) {
-                    subNodeTemplates.push(node.childNodes[i].cloneNode(true))
-                }
-                node.innerHTML = ""
-
-                this.calculate(items[1], data).forEach(subData => {
-                    subNodeTemplates.forEach(template => {
-                        data[items[0]] = subData
-                        let clone = template.cloneNode(true)
-                        this.render(clone, data)
-                        node.append(clone)
-                    })
-                    //console.log(clone)
-                })
-                return
+        if (node.hasAttribute && node.hasAttribute('show')) {
+            if (!this.calculate(node.getAttribute('show'), data)) {
+                node.style.display = 'none'
             }
+        }
+
+        // 渲染循环节点
+        if (node.hasAttribute && node.hasAttribute('for')) {
+            let text = node.getAttribute('for')
+            let items = text.split(/ in | of /i)
+
+            let subNodeTemplates = []
+            for (let i = 0; i < node.childNodes.length; i++) {
+                subNodeTemplates.push(node.childNodes[i].cloneNode(true))
+            }
+            node.innerHTML = ""
+
+            this.calculate(items[1], data).forEach(subData => {
+                subNodeTemplates.forEach(template => {
+                    data[items[0]] = subData
+                    let clone = template.cloneNode(true)
+                    this.render(clone, data)
+                    node.append(clone)
+                })
+                //console.log(clone)
+            })
+            return
         }
 
         // 递归渲染子节点
