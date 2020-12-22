@@ -17,6 +17,14 @@ let TPL = function (params) {
         node = node ? node : document.querySelector(this.el)
         data = data ? data : this
 
+        // 渲染if属性
+        if (node.hasAttribute && node.hasAttribute('if')) {
+            if (!this.calculate(node.getAttribute('if'), data)) {
+                node.remove()
+                return
+            }
+        }
+
         // 渲染文本节点
         if (node.nodeType === TEXT_NODE && this.hasEl(node.data)) {
             let text = node.data
@@ -35,6 +43,7 @@ let TPL = function (params) {
             })
         }
 
+        // 渲染show属性
         if (node.hasAttribute && node.hasAttribute('show')) {
             if (!this.calculate(node.getAttribute('show'), data)) {
                 node.style.display = 'none'
