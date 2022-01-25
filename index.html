@@ -56,6 +56,10 @@
     .history li {
         float: left;
         margin-left: 10px;
+        width: 15%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
     .link-container {
         width: 80%;
@@ -106,11 +110,11 @@
 </style>
 <body>
 <div show="showSearch" class="search-container">
-    <form class="search" action="https://www.baidu.com/s" method="get" target="_blank">
+    <form class="search" action="#" method="get" target="_blank" onsubmit="return false;">
         <input name="wd" type="search" autofocus="autofocus" placeholder="百度一下"/>
-        <button type="submit">搜索</button>
+        <button type="button" onclick="search()">搜索</button>
     </form>
-    <ul class="history" for="item in searchHistory">
+    <ul class="history" if="searchHistory != null" for="item in searchHistory">
         <li><a href="{{item.href}}" target="_blank">{{item.word}}</a></li>
     </ul>
 </div>
@@ -127,20 +131,11 @@
 </body>
 <script type="application/javascript" src="js/template.min.js"></script>
 <script type="application/javascript">
-    const ENTER_KEY_CODE = 13
-    document.onkeydown = function (event) {
-        if (event === ENTER_KEY_CODE) {
-            window.open('https://www.baidu.com/s?wd=' + document.querySelector("input[name=wd]").value);
-        }
-    };
     let body = new TPL({
         el: "body",
         data: {
             showSearch: true,
-            searchHistory: [
-                {"word": "拜登时代", "href": "https://www.baidu.com/s?wd=%E6%8B%9C%E7%99%BB%E6%97%B6%E4%BB%A3"},
-                {"word": "特朗普:现在放弃为时过早", "href": "https://www.baidu.com/s?wd=%E7%89%B9%E6%9C%97%E6%99%AE%3A%E7%8E%B0%E5%9C%A8%E6%94%BE%E5%BC%83%E4%B8%BA%E6%97%B6%E8%BF%87%E6%97%A9"}
-            ],
+            searchHistory: JSON.parse(localStorage.getItem("searchHistory")),
             navData: [
                 {"group": "常用 · 工作", "links": [{"word": "Google 翻译", "href": "https://translate.google.cn/"}, {"word": "百度指数", "href": "http://index.baidu.com/"}, {"word": "百度网盘", "href": "http://pan.baidu.com/"}, {"word": "有道词典", "href": "http://dict.youdao.com/"}, {"word": "印象笔记", "href": "https://www.yinxiang.com/"}, {"word": "QQ邮箱", "href": "https://mail.qq.com/"}, {"word": "网页版微信", "href": "https://wx.qq.com/"}, {"word": "必应", "href": "http://cn.bing.com/"}, {"word": "百度", "href": "https://www.baidu.com/"}]},
                 {"group": "常用 · 社交", "links": [{"word": "微博", "href": "http://weibo.com/"}, {"word": "知乎", "href": "https://www.zhihu.com/"}, {"word": "豆瓣", "href": "https://www.douban.com/"}, {"word": "百度贴吧", "href": "http://tieba.baidu.com/index.html"}, {"word": "QQ空间", "href": "http://qzone.qq.com/"}, {"word": "简书", "href": "http://www.jianshu.com/"}, {"word": "果壳", "href": "http://www.guokr.com/"}, {"word": "V2EX", "href": "https://www.v2ex.com/"}, {"word": "虎扑", "href": "http://www.hupu.com/"}]},
@@ -164,6 +159,33 @@
     })
     window.onload = function () {
         body.init()
+    }
+    document.onkeydown = function (event) {
+        if (event.key === "Enter") {
+            search();
+        }
+    };
+    let search = function () {
+        let keyword = document.querySelector("input[name=wd]").value;
+        let url = 'https://www.baidu.com/s?wd=' + keyword;
+        if (body.searchHistory === undefined) {
+            body.searchHistory = []
+        }
+        let searchItem = {"word": keyword, "href": url};
+        let exist = false;
+        body.searchHistory.forEach(function (item) {
+            if (item.word === searchItem.word) {
+                exist = true;
+            }
+        })
+        if (!exist) {
+            body.searchHistory.unshift(searchItem);
+        }
+        if (body.searchHistory.length > 5) {
+            body.searchHistory = body.searchHistory.slice(0, 5);
+        }
+        localStorage.setItem("searchHistory", JSON.stringify(body.searchHistory))
+        window.open(url);
     }
 </script>
 </html>
