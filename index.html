@@ -1,191 +1,100 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!doctype html>
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <title>导航</title>
+    <meta charset="utf-8">
+    <title>个人名片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        .card_a {
+            width: 800px;
+            height: 460px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-top: -230px;
+            margin-left: -400px;
+            background: #c7fffd;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .card_a:before {
+            content: "";
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 100%;
+            background: linear-gradient(45deg, #ffabab 8%, transparent, #c8fcff);
+            bottom: -53px;
+            left: -87px;
+        }
+
+        .card_a:after {
+            content: "";
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 100%;
+            background: radial-gradient(#ffa7a7b8, #ffededa3, transparent 60%, #cdfcff);
+            top: -123px;
+            right: -352px;
+        }
+
+        .card_a section {
+            width: 600px;
+            position: absolute;
+            left: 100px;
+            top: 80px;
+            z-index: 9;
+        }
+
+        .card_a section h2 {
+            font-size: 50px;
+            letter-spacing: .1em;
+            margin-bottom: 66px;
+        }
+
+        .card_a section span {
+            font-size: 28px;
+            font-weight: normal;
+            margin-left: 50px;
+            letter-spacing: normal;
+        }
+
+        .card_a img {
+            float: right;
+            width: 140px
+        }
+
+        .card_a section ul {
+            border-left: #222 3px solid;
+            padding-left: 28px;
+        }
+
+        .card_a section ul li {
+            list-style: none;
+            line-height: 38px;
+            font-size: 18px;
+        }
+
+    </style>
 </head>
-<style type="text/css">
-    *{
-        box-sizing: border-box;
-    }
-    body {
-        margin: 0;
-        padding: 0;
-        background: #f2f2f2;
-        overflow-x: hidden;
-        overflow-y: auto;
-        font-weight: 500;
-        font-family: "Microsoft YaHei","宋体","Segoe UI", "Lucida Grande", Helvetica, Arial,sans-serif, FreeSans, Arimo;
-    }
-    a {
-        text-decoration: none;
-    }
-    body ul {
-	padding-left: 0px;
-        list-style: none;
-    }
-    input, button {
-        border: none;
-        outline: none;
-    }
-    .search-container {
-        width: 80%;
-        margin: 50px auto;
-    }
-    .search {
-        width: 50%;
-        margin: auto;
-        white-space:nowrap;
-    }
-    .search input {
-        height: 42px;
-        padding-left: 10px;
-        width: 80%;
-        border: 1px solid #A3D0C3;
-    }
-    .search button {
-        height: 42px;
-        width: 20%;
-        background: #A3D0C3;
-        border: 1px solid #A3D0C3;
-    }
-    .history {
-        margin: 10px auto;
-        width: 50%;
-    }
-    .history li {
-        float: left;
-        margin-left: 10px;
-        width: 15%;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-    .link-container {
-        width: 80%;
-        margin: 100px auto;
-        clear: left;
-    }
-    .box {
-        float: left;
-        width: 33.33%;
-    }
-    .box h3 {
-        min-width: 80px;
-        min-height: 18px;
-        font-size: 12px;
-        font-weight: 400;
-        color: #b7b7b7;
-        display: inline-block;
-        margin-bottom: 5px;
-        position: relative;
-    }
-    .box ul li {
-        margin: 1%;
-        background: rgba(255,255,255,1);
-        float: left;
-        width: 31%;
-        line-height: 40px;
-        display: block;
-        position: relative;
-        text-align: center;
-        border-radius: 2px;
-
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        transition: all 0.3s ease;
-        -moz-transition: all 0.3s ease;
-        -webkit-transition: all 0.3s ease;
-        -o-transition: all 0.3s ease;
-
-    }
-    .box ul li:hover {
-        background: rgb(232 231 231);
-    }
-    .box ul li a {
-        font-size: 14px;
-        color: #6b7184;
-    }
-</style>
 <body>
-<div show="showSearch" class="search-container">
-    <form class="search" action="#" method="get" target="_blank" onsubmit="return false;">
-        <input name="wd" type="search" autofocus="autofocus" placeholder="百度一下"/>
-        <button type="button" onclick="search()">搜索</button>
-    </form>
-    <ul class="history" if="searchHistory != null" for="item in searchHistory">
-        <li><a href="{{item.href}}" target="_blank">{{item.word}}</a></li>
-    </ul>
-</div>
-<div class="link-container">
-    <div for="data in navData">
-        <div class="box">
-            <h3>{{data.group}}</h3>
-            <ul for="link in data.links">
-                <li><a href="{{link.href}}" target="_blank">{{toUpper(link.word)}}</a></li>
-            </ul>
-        </div>
-    </div>
+<div class="card_a">
+    <section>
+        <h2>董海明<span>软件开发工程师</span></h2>
+        <img src="images/wechat.png" alt="">
+        <ul>
+            <li>电话 / 18301328831</li>
+            <li>邮箱 / donghaiming@donghaiming.com</li>
+            <li>地址 / 四川省·成都市</li>
+            <li>网址 / www.donghaiming.com</li>
+        </ul>
+    </section>
 </div>
 </body>
-<script type="application/javascript" src="js/template.js"></script>
-<script type="application/javascript">
-    let body = new TPL({
-        el: "body",
-        data: {
-            showSearch: true,
-            searchHistory: JSON.parse(localStorage.getItem("searchHistory")),
-            navData: [
-                {"group": "常用 · 工作", "links": [{"word": "Google 翻译", "href": "https://translate.google.cn/"}, {"word": "百度指数", "href": "http://index.baidu.com/"}, {"word": "百度网盘", "href": "http://pan.baidu.com/"}, {"word": "有道词典", "href": "http://dict.youdao.com/"}, {"word": "印象笔记", "href": "https://www.yinxiang.com/"}, {"word": "QQ邮箱", "href": "https://mail.qq.com/"}, {"word": "网页版微信", "href": "https://wx.qq.com/"}, {"word": "必应", "href": "http://cn.bing.com/"}, {"word": "百度", "href": "https://www.baidu.com/"}]},
-                {"group": "常用 · 社交", "links": [{"word": "微博", "href": "http://weibo.com/"}, {"word": "知乎", "href": "https://www.zhihu.com/"}, {"word": "豆瓣", "href": "https://www.douban.com/"}, {"word": "百度贴吧", "href": "http://tieba.baidu.com/index.html"}, {"word": "QQ空间", "href": "http://qzone.qq.com/"}, {"word": "简书", "href": "http://www.jianshu.com/"}, {"word": "果壳", "href": "http://www.guokr.com/"}, {"word": "V2EX", "href": "https://www.v2ex.com/"}, {"word": "虎扑", "href": "http://www.hupu.com/"}]},
-                {"group": "常用 · 生活", "links": [{"word": "穷游", "href": "http://www.qyer.com/"}, {"word": "携程", "href": "http://www.ctrip.com/"}, {"word": "去哪儿", "href": "http://www.qunar.com/"}, {"word": "赶集网", "href": "http://ganji.com/"}, {"word": "58同城", "href": "http://58.com/"}, {"word": "饿了么", "href": "https://www.ele.me/"}, {"word": "百度糯米", "href": "https://nuomi.com/"}, {"word": "大众点评", "href": "http://www.dianping.com/"}, {"word": "美团", "href": "http://gz.meituan.com/"}]},
-                {"group": "视频 · 音乐", "links": [{"word": "网易云音乐", "href": "http://music.163.com/"}, {"word": "QQ音乐", "href": "https://y.qq.com/"}, {"word": "音悦台", "href": "http://www.yinyuetai.com/"}, {"word": "虾米音乐", "href": "http://www.xiami.com/"}, {"word": "哔哩哔哩", "href": "https://www.bilibili.com/"}, {"word": "腾讯视频", "href": "https://v.qq.com/"}, {"word": "搜狐视频", "href": "http://tv.sohu.com/"}, {"word": "爱奇艺", "href": "http://www.iqiyi.com/"}, {"word": "优酷", "href": "http://www.youku.com/"}]},
-                {"group": "消费 · 购物", "links": [{"word": "淘宝", "href": "https://www.taobao.com/"}, {"word": "天猫", "href": "https://www.tmall.com/"}, {"word": "京东", "href": "https://www.jd.com/"}, {"word": "1688", "href": "https://1688.com/"}, {"word": "小米网", "href": "http://www.mi.com/"}, {"word": "一号店", "href": "http://www.yhd.com/"}, {"word": "唯品会", "href": "http://www.vip.com/"}, {"word": "当当", "href": "http://www.dangdang.com/"}, {"word": "亚马逊", "href": "http://z.cn/"}]},
-                {"group": "资讯 · 新闻", "links": [{"word": "好奇日报", "href": "http://www.qdaily.com/"}, {"word": "铁血网", "href": "http://www.tiexue.net/"}, {"word": "汽车之家", "href": "http://www.autohome.com.cn/"}, {"word": "人民网", "href": "http://www.people.com.cn/"}, {"word": "搜狐", "href": "http://www.sohu.com/"}, {"word": "网易", "href": "http://www.163.com/"}, {"word": "百度新闻", "href": "http://news.baidu.com/"}, {"word": "腾讯", "href": "http://news.qq.com/"}, {"word": "新浪", "href": "http://www.sina.com.cn/"}]},
-                {"group": "工作 · 求职", "links": [{"word": "前程无忧", "href": "https://www.51job.com/"}, {"word": "智联招聘", "href": "http://www.zhaopin.com/"}, {"word": "乔布堂", "href": "http://cv.qiaobutang.com/"}, {"word": "兼职猫", "href": "https://www.jianzhimao.com/"}, {"word": "庞果网", "href": "http://job.csdn.net/"}, {"word": "内推网", "href": "http://www.neitui.me/"}, {"word": "大街", "href": "https://www.dajie.com/"}, {"word": "猎聘", "href": "https://www.liepin.com/"}, {"word": "拉勾", "href": "https://www.lagou.com/"}]},
-                {"group": "娱乐 · 游戏", "links": [{"word": "NGA", "href": "http://bbs.ngacn.cc/"}, {"word": "3DM", "href": "http://www.3dmgame.com/"}, {"word": "游民星空", "href": "http://www.gamersky.com/"}, {"word": "52pk", "href": "http://www.52pk.com/"}, {"word": "178", "href": "http://www.178.com/"}, {"word": "4399", "href": "http://www.4399.com/"}, {"word": "电玩巴士", "href": "http://www.tgbus.com/"}, {"word": "17173", "href": "https://www.17173.com/"}, {"word": "多玩", "href": "http://www.duowan.com/"}]},
-                {"group": "金融 · 银行", "links": [{"word": "平安银行", "href": "http://bank.pingan.com/"}, {"word": "民生银行", "href": "http://www.cmbc.com.cn/"}, {"word": "广发银行", "href": "http://www.cgbchina.com.cn/"}, {"word": "交通银行", "href": "http://www.bankcomm.com/BankCommSite/default.shtml"}, {"word": "中国银行", "href": "http://www.boc.cn/"}, {"word": "农业银行", "href": "http://www.abchina.com/cn/"}, {"word": "建设银行", "href": "http://www.ccb.com/cn/home/indexv3.html"}, {"word": "工商银行", "href": "http://www.icbc.com.cn/icbc/"}, {"word": "招商银行", "href": "http://www.cmbchina.com/"}]}
-            ]
-        },
-        methods:{
-            init:function(){
-                this.render();
-            },
-            toUpper:function(str) {
-                return str.toUpperCase()
-            }
-        }
-    })
-    window.onload = function () {
-        body.init()
-    }
-    document.onkeydown = function (event) {
-        if (event.key === "Enter") {
-            search();
-        }
-    };
-    let search = function () {
-        let keyword = document.querySelector("input[name=wd]").value;
-        let url = 'https://www.baidu.com/s?wd=' + keyword;
-        if (body.searchHistory === undefined || body.searchHistory == null) {
-            body.searchHistory = []
-        }
-        let searchItem = {"word": keyword, "href": url};
-        let exist = false;
-        body.searchHistory.forEach(function (item) {
-            if (item.word === searchItem.word) {
-                exist = true;
-            }
-        })
-        if (!exist) {
-            body.searchHistory.unshift(searchItem);
-        }
-        if (body.searchHistory.length > 5) {
-            body.searchHistory = body.searchHistory.slice(0, 5);
-        }
-        localStorage.setItem("searchHistory", JSON.stringify(body.searchHistory))
-        window.open(url);
-    }
-</script>
 </html>
