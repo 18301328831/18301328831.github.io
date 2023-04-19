@@ -2,56 +2,29 @@
 //data can also be pulled from jQuery if needed
 //no need to pass the sec key in the function, but it is as an option
 function decryptDES(data, sec_key) {
-    var decrypted = CryptoJS.TripleDES.decrypt(data, sec_key);
-    // decrypted.serialize()); // serialize for submission jQuery
-    // console.log("Decrypt: "+data+" Result: " + decrypted.toString(CryptoJS.enc.Utf8));
-    //shows result in console.log
-    return decrypted.toString(CryptoJS.enc.Utf8);
+    return CryptoJS.AES.decrypt(data, sec_key).toString(CryptoJS.enc.Utf8)
 }
 
-var ciphertext = "U2FsdGVkX1+RJfYzQvrNQTqXnNMgwC3i26/4sAhI4m4Yg4PSdmlQsJItpC8WZNCmJClRNTQBQe+6hr6Yu7gaMxcj2ZyIT/OtF0G2BtaXpTDWT0S2od6eh7mY7oCt4sLpA7q8v4VTeV6d79VjO5UUAMWcCp0NHXFP";
-// console.log(encryptDES('{"access_key_id": "LBTAjMT4I4wi9VAyBxGKnM4V","access_key_secret": "wde5gBXkDpRcAncR6xFkZelIGl56vs"}', "password"));
-var ossKey = JSON.parse(decryptDES(ciphertext, prompt('请输入密码:')));
-accessid = ossKey.access_key_id;
-accesskey = ossKey.access_key_secret;
-var host = 'https://pi-ip.oss-accelerate.aliyuncs.com';
+function encryptDES(data, sec_key) {
+    return CryptoJS.AES.encrypt(data, sec_key).toString()
+}
 
+const host = 'https://pi-ip.oss-accelerate.aliyuncs.com';
 g_dirname = 'upload/'
 g_object_name = ''
 g_object_name_type = ''
-now = timestamp = Date.parse(new Date()) / 1000;
+now = timestamp = Date.now() / 1000;
 
-var policyText = {
-    "expiration": "2022-01-01T12:00:00.000Z", //设置该Policy的失效时间，超过这个失效时间之后，就没有办法通过这个policy上传文件了
-    "conditions": [
-        ["content-length-range", 0, 1048576000] // 设置上传文件的大小限制
-    ]
-};
-
-var policyBase64 = Base64.encode(JSON.stringify(policyText))
-message = policyBase64
-var bytes = Crypto.HMAC(Crypto.SHA1, message, accesskey, {asBytes: true});
-var signature = Crypto.util.bytesToBase64(bytes);
+const accessKey = 'LTAI4GKnAjwiBTyBxM9VAM4V';
+const policyBase64 = 'ewogICAgImV4cGlyYXRpb24iOiAiMzA1MC0wNC0xOVQwMjo1Nzo1MS4wMDBaIiwKICAgICJjb25kaXRpb25zIjogWwogICAgICAgIFsKICAgICAgICAgICAgImNvbnRlbnQtbGVuZ3RoLXJhbmdlIiwKICAgICAgICAgICAgMCwKICAgICAgICAgICAgMTA0ODU3NjAwMAogICAgICAgIF0KICAgIF0KfQ=='
+const ciphertext = "U2FsdGVkX1+XPkdRZynO91z4qW7zUDhAFd2epbjy/8EoUMWpaIwvg2R4PlRPe7XW"
+const signature = decryptDES(ciphertext, prompt('请输入密码:'))
 
 function check_object_radio() {
     g_object_name_type = 'local_name';
-    // var tt = document.getElementsByName('myradio');
-    // for (var i = 0; i < tt.length; i++) {
-    //     if (tt[i].checked) {
-    //         g_object_name_type = tt[i].value;
-    //         break;
-    //     }
-    // }
 }
 
 function get_dirname() {
-    // g_dirname = dir;
-    // dir = document.getElementById("dirname").value;
-    // if (dir != '' && dir.indexOf('/') != dir.length - 1) {
-    //     dir = dir + '/'
-    // }
-    // //alert(dir)
-    // g_dirname = dir
 }
 
 function random_string(len) {
@@ -103,7 +76,7 @@ function set_upload_param(uploader, filename, ret) {
     new_multipart_params = {
         'key': g_object_name,
         'policy': policyBase64,
-        'OSSAccessKeyId': accessid,
+        'OSSAccessKeyId': accessKey,
         'success_action_status': '200', //让服务端返回200,不然，默认会返回204
         'signature': signature,
     };
@@ -116,12 +89,11 @@ function set_upload_param(uploader, filename, ret) {
     uploader.start();
 }
 
-function genId(){
-    return Number(Math.random().toString().substr(3,10) + Date.now()).toString(36);
+function genId() {
+    return Number(Math.random().toString().substr(3, 10) + Date.now()).toString(36);
 }
 
-var prompt = function (message, style, time)
-{
+var prompt = function (message, style, time) {
     style = (style === undefined) ? 'alert-success' : style;
     time = (time === undefined) ? 120000 : time;
     $('<div>')
@@ -134,7 +106,7 @@ var prompt = function (message, style, time)
 };
 
 // 成功提示
-var success_prompt = function(message, time) {
+var success_prompt = function (message, time) {
     prompt(message, 'alert-success', time);
 }
 
@@ -201,13 +173,13 @@ var uploader = new plupload.Uploader({
                 var id = genId();
 
                 html = '<div class="input-group">\n' +
-                '<span class="input-group-addon">'+file.name+'</span>\n' +
-                '<input id="'+id+'" type="text" class="form-control" value="'+url+'" onclick="openUrl(this)">\n' +
-                '<span class="input-group-addon" onclick="copyText(\''+id+'\')">复制</span>\n' +
-                '</div>'
+                    '<span class="input-group-addon">' + file.name + '</span>\n' +
+                    '<input id="' + id + '" type="text" class="form-control" value="' + url + '" onclick="openUrl(this)">\n' +
+                    '<span class="input-group-addon" onclick="copyText(\'' + id + '\')">复制</span>\n' +
+                    '</div>'
 
             } else {
-                html = '<a href="'+url+'" class="list-group-item list-group-item-success">' +
+                html = '<a href="' + url + '" class="list-group-item list-group-item-success">' +
                     '<span class="badge alert-danger pull-right">Failed</span>' +
                     file.name +
                     '</a>';
