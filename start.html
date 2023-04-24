@@ -3,10 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Getting Start</title>
+    <script type="application/javascript" src="lib/encryptjs/crypto-js.js"></script>
+    <script type="application/javascript" src="js/template.js"></script>
+    <style>
+        .again {
+            text-align: center;
+        }
+        .again > div {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
+<div class="again">
+    <div>
+        AccessKeyId:
+        <span>{{accessKey}}</span>
+    </div>
+    <div>
+        AccessKeySecret:
+        <span>{{decrypt(encrypted, prompt('请输入密码:')) }}</span>
+    </div>
+    <div>
+        <a href="https://pi-ip.oss-accelerate.aliyuncs.com/upload/oss-browser.zip">Download OssBrowser</a>
+    </div>
+</div>
 </body>
 <script type="application/javascript">
-    window.location.href = "https://pi-ip.oss-accelerate.aliyuncs.com/upload/oss-browser.zip"
+    let body = new TPL({
+        el: "body",
+        data: {
+            accessKey: "LTAI4GKnAjwiBTyBxM9VAM4V",
+            encrypted: "U2FsdGVkX19eIS+vtw35qYVR3qSJpO3oCX3DShiWMWgTOUUrfNvkuDY7jakWJcL7",
+        },
+        methods: {
+            init: function () {
+                this.render();
+            },
+            decrypt: (data, securityKey) => {
+                return CryptoJS.AES.decrypt(data, securityKey).toString(CryptoJS.enc.Utf8)
+            },
+            encrypt: (data, securityKey) => {
+                return CryptoJS.AES.encrypt(data, securityKey).toString()
+            }
+        }
+    })
+    window.onload = function () {
+        body.init()
+    }
 </script>
 </html>
