@@ -49,14 +49,16 @@
         background: #A3D0C3;
         border: 1px solid #A3D0C3;
     }
-    .history {
+    .history-container {
         margin: 10px auto;
         width: 50%;
     }
-    .history li {
+    .history-container div {
         float: left;
         margin-left: 10px;
         width: 15%;
+    }
+    .history-container li {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -65,6 +67,22 @@
         width: 80%;
         margin: 100px auto;
         clear: left;
+    }
+    .history {
+        position: relative;
+    }
+    .delete {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        right: -5px;
+        top: -5px
+    }
+    .history:hover .delete {
+        display: block;
     }
     .box {
         float: left;
@@ -114,8 +132,11 @@
         <input name="wd" type="search" autofocus="autofocus" placeholder="百度一下"/>
         <button type="button" onclick="search()">搜索</button>
     </form>
-    <ul class="history" if="searchHistory != null" for="item in searchHistory">
-        <li><a href="{{item.href}}" target="_blank">{{item.word}}</a></li>
+    <ul class="history-container" if="searchHistory != null" for="item in searchHistory">
+        <div class="history">
+            <img onclick="deleteSearchHistory('{{item.word}}')" class="delete" src="images/delete.png" alt="delete"/>
+            <li><a href="{{item.href}}" target="_blank">{{item.word}}</a></li>
+        </div>
     </ul>
 </div>
 <div class="link-container">
@@ -165,13 +186,13 @@
             search();
         }
     };
-    let search = function () {
-        let keyword = document.querySelector("input[name=wd]").value;
-        let url = 'https://www.baidu.com/s?wd=' + keyword;
-        if (body.searchHistory === undefined || body.searchHistory == null) {
+    const search = () => {
+        const keyword = document.querySelector("input[name=wd]").value;
+        const url = 'https://www.baidu.com/s?wd=' + keyword;
+        if (!body.searchHistory) {
             body.searchHistory = []
         }
-        let searchItem = {"word": keyword, "href": url};
+        const searchItem = {"word": keyword, "href": url};
         let exist = false;
         body.searchHistory.forEach(function (item) {
             if (item.word === searchItem.word) {
@@ -186,6 +207,14 @@
         }
         localStorage.setItem("searchHistory", JSON.stringify(body.searchHistory))
         window.open(url);
+    }
+
+    const deleteSearchHistory = (word) => {
+        if (!body.searchHistory) {
+            body.searchHistory = []
+        }
+        body.searchHistory = body.searchHistory.filter(item => item.word !== word)
+        localStorage.setItem("searchHistory", JSON.stringify(body.searchHistory))
     }
 </script>
 </html>
